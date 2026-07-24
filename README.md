@@ -132,18 +132,31 @@ To run a different case, input your emergency state coordinates and heading into
 
 ---
 
-## 📝 Citation
+---
 
 If you use this software in part or in full for your research or projects, please cite:
 
-Tekaslan, H. E. and Atkins, E. M. (2026). Airspace-aware Contingency Landing Planning. arXiv:2602.07074. Available: http://arxiv.org/abs/2602.07074
+Tekaslan, H. E. and Atkins, E. M. and Neogi, N. (2026). Plan-and-Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment. arXiv:<XXXXX>. Available: http://arxiv.org/abs/<XXXXX>
 
-`@misc{paa,`
-`      title={Plan–and–Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment},` 
-`      author={H. Emre Tekaslan and Ella M. Atkins and Natasha Neogi},`
-`      year={2026},`
-`      eprint={XXXXXX},`
-`      archivePrefix={arXiv},`
-`      primaryClass={cs.RO},`
-`      url={https://arxiv.org/abs/XXXXXX},` 
-`}`
+```bibtex
+@misc{ggs_aclm,
+      title={Plan-and-Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment}, 
+      author={H. Emre Tekaslan and Ella M. Atkins},
+      year={2026},
+      eprint={<XXXXX>},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/<XXXXX>}, 
+}
+```
+
+## 👤 Author
+
+**H. Emre Tekaslan**  
+Autonomous Aerospace Systems Laboratory (A2Sys)  
+Kevin T. Crofton Department of Aerospace and Ocean Engineering  
+Virginia Tech, Blacksburg, VA, USA
+
+- 📧 Email: [tekaslan@vt.edu](mailto:tekaslan@vt.edu)  
+- 🔗 Google Scholar: [https://scholar.google.com/citations?user=uKn-WSIAAAAJ&hl=en](https://scholar.google.com/citations?user=uKn-WSIAAAAJ&hl=en)  
+- 🔗 LinkedIn: [https://www.linkedin.com/in/tekaslan/](https://www.linkedin.com/in/tekaslan/)
