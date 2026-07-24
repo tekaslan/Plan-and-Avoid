@@ -1,6 +1,6 @@
 # Plan and Avoid: Aircraft Trajectory Planning and Coordination
 
-This repository provides a C/C++ implementation of a **Conflict-Aware Gradient-guided Search for Aircraft Path Planning** in constrained airspace, alongside a reactive **Conflict Resolution Advisory** framework. The system enables path planning with air traffic deconfliction and minimizes operational disruptions during emergency mitigation by combining spatial risk modeling and 4D trajectory search considering engine-out fixed-wing aircraft performance.
+This repository provides a C/C++ implementation of a **Conflict-Aware Gradient-guided Search for Aircraft Path Planning** in constrained airspace, alongside a reactive **Conflict Resolution Advisory** framework. The system enables path planning and coordination with conflict avoidance and minimizes disruptions to multi-agent activity during priority aerial operations.
 
 Developed at the **Autonomous Aerospace Systems Laboratory (A2Sys)**, Kevin T. Crofton Department of Aerospace and Ocean Engineering, Virginia Tech.
 
