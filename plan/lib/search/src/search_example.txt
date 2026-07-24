@@ -1,0 +1,81 @@
+#include "../include/search.h"
+#include "../../node/include/node.h"
+#include "../../priorityQ/include/priorityQ.h"
+#include "../../math/include/math_utils.h"
+#include "../../census/include/census.h"
+
+int main()
+{
+
+    SearchProblem *problem = (SearchProblem *) malloc(sizeof(SearchProblem));
+
+    // Initial, goal and touchdown states
+    problem->Initial.lat = 40.7038;
+    problem->Initial.lon = -73.4842;
+    problem->Initial.alt = 2500.0;
+    problem->Initial.hdg = 0.0;
+
+    problem->Goal.lat = 40.74253918260166;
+    problem->Goal.lon = -73.43333101780938;
+    problem->Goal.alt = 467.5319536912856;
+    problem->Goal.hdg = 132.0;
+
+    problem->Touchdown.lat = 40.731381;
+    problem->Touchdown.lon = -73.417036;
+    problem->Touchdown.alt = 77.0;
+    problem->Touchdown.hdg = 132.0;
+
+    // Aircraft parameters
+    problem->ac = (Aircraft *) malloc(sizeof(Aircraft));
+    problem->ac->turnRadius = 1500;
+    problem->ac->gammaOpt = 0.5*(4.1 + 4.7);
+    problem->ac->gammaOptTurn = 4.55;
+    
+    // Earth model
+    problem->GeoOpt.model = WGS84;
+    problem->GeoOpt.verbose = 0;
+
+    // Population related parameters
+    problem->timeStep = 0.5;
+    problem->minPopulation = 0;
+    problem->maxPopulation = 0.007050971149678276;
+
+    // Actions
+    double deltaCourse[5] = {-30, -15, 0, 15, 30};
+    // Set allowed course changes
+    for (int i = 0; i < 5; i++)
+    {
+        problem->deltaCourse[i] = &deltaCourse[i];
+    }
+
+    // Initialize the search problem
+    setUpProblem(problem);
+
+    // Distance related parameters
+    problem->dl = 0.5*NM_2_FT;
+    problem->du = 0.5*(problem->dOpt + minDistance(&problem->Initial, &problem->Goal, problem->ac->turnRadius, &problem->GeoOpt));
+
+    // Create a frontier
+    size_t capacity = 1000;
+    PriorityQueue * pq = createPriorityQueue(capacity, 1);
+
+    // Make the initial state a node
+    Node *node = (Node *) malloc(sizeof(Node));
+    node = createNode(&problem->Initial, NULL, NULL, 0, 10, 0, 0, 10, 0);
+
+    // Insert the initial state into the frontier
+    pqInsert(pq, node, node->g);
+
+    double dPsi = 5.0;
+    double dAltitude = 760.0;
+    size(&problem->Initial, &problem->Goal, problem->dOpt, problem->lmin, dAltitude, dPsi);
+
+    double * g_d = distanceCost(node->state, node->l, problem);
+    double g_psi = courseCost(&problem->Initial, problem);
+
+    // const char *shapefile_path = "/Users/hetekaslan/Desktop/AirDeconfliction/search_aclm/data/longisland_census.shp";
+    // struct Census *census = initCensus(shapefile_path);
+
+
+    return 1;
+}

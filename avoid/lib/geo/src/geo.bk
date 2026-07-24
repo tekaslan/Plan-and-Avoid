@@ -1,0 +1,186 @@
+/**
+    @file 
+    @brief Code for calculations of new positions and distances with different 
+    Earth models.
+    @author Pedro Donato
+ */
+
+#include "geo.h"
+
+/**
+
+##Implementation Details##  
+WGS-84 Implementation follows directly the formulas presented by Vincenty in 
+Reference \cite Vincenty1975. WGS-84 parameters are given in Reference 
+\cite Soler1989. 
+
+Flat Earth uses common geometry.
+
+##Legacy Code Comments##
+Old AFP would not have a dedicated function for that. It used a define in
+order to convert from lat,lon to NM always using 60NM per degree which is 
+not accurate for latitude.
+
+##Modification History##
+### Apr 23, 2014 ###
+\li All variables initialized
+
+###July 31, 2014###
+\li Changed the function name from WGS84_Dist to Geo_Dist
+\li Included Flat Earth calculation.
+
+ */
+bool Geo_Dist(const struct Pos* const pos1, const struct Pos* const pos2, 
+             double * const dist, double * const hdg, 
+             const struct GeoOpt *opt){
+
+    /* Check for same inputs */
+    if((pos1->lat == pos2->lat) && (pos1->lon == pos2->lon)){
+        *dist = 0.0;
+        *hdg = 0.0;
+        return 0;
+    }
+
+    /* Check for inputs inside range */
+    if(opt->model != Flat &&
+       ((fabs(pos1->lat) > 90.0) || (fabs(pos2->lat) > 90.0))){
+        *dist = 0.0;
+        *hdg = 0.0;
+        fprintf(stderr, "ERROR - Geo_Dist - Invalid Latitude Range \n\n");
+        return EXIT_FAILURE;
+    }
+    
+    /* Vincenty inverse formula implementation */
+    if(opt->model != Flat){
+
+        }
+
+    /* Flat Earth Model */
+    else if (opt->model == Flat){
+        *dist = sqrt(pow((pos1->lat-pos2->lat),2.0) + pow((pos1->lon-pos2->lon),2.0));
+        *hdg = 90.0 - RAD_2_DEG*atan2(pos2->lat - pos1->lat, pos2->lon - pos1->lon);
+    }
+
+    /* Normalize Heading from 0 to 360 */
+    *hdg = Geo_NormHdg(*hdg);
+
+    return EXIT_SUCCESS;
+}
+
+/**
+
+##Implementation Details##  
+WGS-84 Implementation follows directly the formulas presented by Vincenty in 
+Reference \cite Vincenty1975. WGS-84 parameters are given in Reference 
+\cite Soler1989. 
+
+Flat Earth uses common geometry.
+
+New altitude and heading are not defined.
+
+##Legacy Code Comments##
+Old AFP would not have a dedicated function for that. It used a define in
+order to convert from lat,lon to NM always using 60NM per degree which is 
+not accurate for latitude.
+
+##Modification History##
+### Apr 23, 2014 ###
+\li All variables initialized
+
+###July 31, 2014###
+\li Changed the function name from WGS84_Npos to Geo_Npos
+\li Included Flat Earth calculation.
+\li Included code to define new heading as the previous one. This was made for 
+maintain uniformity since Geo_NposT() changes the heading.
+*/
+int Geo_Npos(const struct Pos* pos1, struct Pos* pos2, const double *dist, const double *hdg,
+        const struct GeoOpt * opt){
+
+   }
+
+    // Flat Earth Model Implementation
+    else if(opt->model == Flat){
+        pos2->lat = pos1->lat + (*dist)*cos(*hdg*DEG_2_RAD);    
+        pos2->lon = pos1->lon + (*dist)*sin(*hdg*DEG_2_RAD);    
+    }
+
+    return EXIT_SUCCESS;
+}
+
+/**
+    ##General Info##
+  As deduced with the help of the following figure, the new position after the 
+  turn is the same as a new position over a straight line with heading
+  \f$\psi_1 + \frac{\Delta\psi}{2}\f$ with distance equal to 
+  \f$r\sqrt{1-2\cos\Delta\psi}\f$.
+
+    \image html new_pos_turn.jpg
+    \image latex new_pos_turn.eps
+
+    New altitude and heading are not defined.
+
+    ##Legacy Code Comments##
+    There was not a dedicated function for this in the legacy code. It was
+    implemented inside other functions using the same idea.
+
+    ##Modification History##
+    ### Apr 23, 2014 ###
+    \li All variables initialized
+
+    ### July 31, 2014###
+    \li Function name changed from WGS84_NposT to Geo_NposT
+    \li Inclusion of the Earth model flag
+*/
+int Geo_NposT(const struct Pos* pos1, struct Pos* pos2, const double *rad,
+                                const double *dpsi, const struct GeoOpt * opt){
+
+    double hdg = pos1->hdg + *dpsi/2.0;
+    double dist = (*rad) * sqrt(2-2*cos((*dpsi)*DEG_2_RAD));
+    Geo_Npos(pos1,pos2,&dist,&hdg,opt);
+    pos2->hdg = fmod(pos1->hdg + *dpsi,360.);
+
+    return EXIT_SUCCESS;
+}
+
+double Geo_NormHdg(double hdg){
+
+    while(hdg >= 360.0){
+        hdg = hdg - 360.0;
+    }
+    while(hdg < 0.0){
+        hdg = hdg + 360.0;
+    }
+
+    return hdg;
+}
+
+int Geo_DistT(const struct Pos* pos1, struct Pos* pos2, double *R, const struct GeoOpt *opt){
+    
+    double dist = 0.0;
+    double psi_rel = 0.0;
+    double psi_p = 0.0;
+
+    Geo_Dist(pos1, pos2, &dist, &psi_rel, opt);
+    psi_p = 90.0 + pos1->hdg - psi_rel;
+    *R = dist / (2.0 * cos(psi_p * DEG_2_RAD)); 
+    pos2->hdg = Geo_NormHdg(2.0 * psi_rel - pos1->hdg);
+
+    return EXIT_SUCCESS;
+}
+
+
+
+int Geo_ToAng(struct Angle *angd, double * ang)
+{
+    angd->deg = (int) *ang;
+    angd->min = (int) fabs(fmod(*ang * 60.0, 60.0));
+    angd->sec = fabs(fmod(*ang * 3600.0, 60.0));
+
+    if(fabs(angd->sec - 60.0) < 10e-10){
+        angd->min++;
+        angd->sec -= 60.0;
+        if(angd->sec < 0) angd->sec = 0.0;
+    }
+        
+    return EXIT_SUCCESS;
+}

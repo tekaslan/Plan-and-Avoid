@@ -1,0 +1,5 @@
+# c182 data file
+# Mass [kg] / S [m^2] / CD0 / CD0_app / k / CL0 / CL0_app / CLmax / Phi_Max / Glider / Osswald eff. / Span [m] / AR / Wing Height [m] / CLa / Wing Inc. Ang. [rad] / Shallowest glide Ang. - Landing conf. [deg] / TD Sp [m/s] / Crs Sp [m/s] / Init Sp [m/s] / Horiz. Dist. Thresh. [NM] / Best Gamma Turn [rad] / Max. Touchdown Speed [m/s] / Best-glide Speed in Landing Conf. [m/s] / Fin. App. Decel. Horiz. Dist [NM] / Attitude Stabil. Time [sec] / Min. Steepening [deg]  
+1202.019781 16.165100 0.027000 0.060500 0.047484 0.307000 0.807000 1.540000 45.000000 1 0.900000 10.972800 7.448289 1.800000 4.410000 0.000000 -5.200000 32.476770 67.086480 41.155556 0.500000 -0.075049 38.583333 32.476770 0.300000 3.000000 0.500000
+225 10 6000 
+0 200 10000 

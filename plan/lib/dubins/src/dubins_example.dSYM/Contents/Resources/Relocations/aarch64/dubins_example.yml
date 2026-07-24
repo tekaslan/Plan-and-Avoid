@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/hetekaslan/Library/CloudStorage/OneDrive-VirginiaTech/Desktop/RoadLanding/lib/dubins/src/dubins_example'
+relocations:     []
+...

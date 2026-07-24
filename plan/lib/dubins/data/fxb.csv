@@ -1,0 +1,12 @@
+# Gmaps Input file example 1 - GGA input 
+42.293572,          Map Lat Center - Any valid value if datafile is given
+-83.711980,         Map Lon Center - Any valid value if datafile is given
+12,                 Map Zoom - Any valid value if datafile is given
+2,                  Map Scale
+640,                Map Height
+640,                Map Width
+satellite,          Map type
+results/map.png,    Map only file 
+results/quadrotor.png, Map output file
+data/gps.csv,       Map datafile to plot
+gga,                Datafile model
