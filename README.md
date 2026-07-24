@@ -139,7 +139,7 @@ If you use this software in part or in full for your research or projects, pleas
 Tekaslan, H. E. and Atkins, E. M. and Neogi, N. (2026). Plan-and-Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment. arXiv:<XXXXX>. Available: http://arxiv.org/abs/<XXXXX>
 
 ```bibtex
-@misc{ggs_aclm,
+@misc{paa,
       title={Plan-and-Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment}, 
       author={H. Emre Tekaslan and Ella M. Atkins},
       year={2026},
