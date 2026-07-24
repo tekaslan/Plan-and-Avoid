@@ -141,7 +141,7 @@ Tekaslan, H. E. and Atkins, E. M. and Neogi, N. (2026). Plan-and-Avoid: Real-Tim
 ```bibtex
 @misc{paa,
       title={Plan-and-Avoid: Real-Time Aircraft Trajectory Coordination in a Multi-Agent Environment}, 
-      author={H. Emre Tekaslan and Ella M. Atkins},
+      author={H. Emre Tekaslan, Ella M. Atkins, and Natasha Neogi},
       year={2026},
       eprint={<XXXXX>},
       archivePrefix={arXiv},
